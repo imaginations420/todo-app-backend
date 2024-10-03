@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const secretKey = process.env.SECRET_KEY; 
 
-// Middleware to verify JWT
+
 const verifyToken = (req, res, next) => {
     const token = req.headers['x-access-token'];
     if (!token) return res.status(401).send({ message: 'No token provided. User not authorized.' });
@@ -18,7 +18,7 @@ const verifyToken = (req, res, next) => {
     });
 };
 
-// Create a new to-do item
+
 router.post('/todos', verifyToken, (req, res) => {
     const { description, status } = req.body;
 
@@ -31,7 +31,7 @@ router.post('/todos', verifyToken, (req, res) => {
     });
 });
 
-// Get all to-do items for the logged-in user
+
 router.get('/todos', verifyToken, (req, res) => {
     db.all('SELECT * FROM todos WHERE user_id = ?', [req.userId], (err, rows) => {
         if (err) {
@@ -42,7 +42,7 @@ router.get('/todos', verifyToken, (req, res) => {
     });
 });
 
-// Update a to-do item
+
 router.put('/todos/:id', verifyToken, (req, res) => {
     const { id } = req.params;
     const { description, status } = req.body;
@@ -59,7 +59,7 @@ router.put('/todos/:id', verifyToken, (req, res) => {
     });
 });
 
-// Delete a to-do item
+
 router.delete('/todos/:id', verifyToken, (req, res) => {
     const { id } = req.params;
 
